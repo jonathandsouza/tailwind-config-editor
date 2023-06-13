@@ -13,6 +13,7 @@ export async function GET(request: Request) {
 		.use(tailwind(
 			{
 				config: {
+					prefix: 'tce-',
 					content: [],
 
 					// safelist: [
