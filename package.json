@@ -32,14 +32,14 @@
 		"prettier": "^2.8.8"
 	},
 	"husky": {
-	"hooks": {
-		"pre-commit": "lint-staged"
-	}
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
 	},
 	"lint-staged": {
-	"*.{js,jsx,ts,tsx}": [
-		"eslint --fix",
-		"prettier  --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
-	]
+		"*.{json,js,jsx,ts,tsx}": [
+			"eslint --fix",
+			"prettier  --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+		]
 	}
 }

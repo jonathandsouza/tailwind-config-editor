@@ -4,6 +4,7 @@ import { TailwindConfigEditor } from "./components/tailwind-config-editor/tailwi
 export default function Home() {
 	return (
 		<div className="flex space-x-9">
+			
 			<div className="editor basis-1/2">
 				<TailwindConfigEditor />
 			</div>
