@@ -27,15 +27,13 @@
 		"typescript": "5.1.3"
 	},
 	"devDependencies": {
+		"@vercel/git-hooks": "github:vercel/git-hooks",
 		"daisyui": "^3.1.1",
-		"husky": "^8.0.3",
 		"lint-staged": "^13.2.2",
 		"prettier": "^2.8.8"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
+	"git": {
+		"pre-commit": "lint-staged"
 	},
 	"lint-staged": {
 		"*.{json,js,jsx,ts,tsx}": [
