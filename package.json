@@ -10,6 +10,15 @@
 		"prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
 		"prepare": "husky install"
 	},
+	"git": {
+		"pre-commit": "lint-staged"
+	},
+	"lint-staged": {
+		"*": [
+			"eslint --fix",
+			"prettier  --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+		]
+	},
 	"dependencies": {
 		"@types/node": "20.3.1",
 		"@types/react": "18.2.12",
@@ -31,14 +40,5 @@
 		"daisyui": "^3.1.1",
 		"lint-staged": "^13.2.2",
 		"prettier": "^2.8.8"
-	},
-	"git": {
-		"pre-commit": "lint-staged"
-	},
-	"lint-staged": {
-		"*.{json,js,jsx,ts,tsx}": [
-			"eslint --fix",
-			"prettier  --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
-		]
 	}
 }
