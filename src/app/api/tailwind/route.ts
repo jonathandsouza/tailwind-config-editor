@@ -1,8 +1,8 @@
-import postcss from 'postcss';
-import tailwind from 'tailwindcss';
+import postcss from "postcss";
+import tailwind from "tailwindcss";
+import cssnano from "cssnano";
 
 export async function GET(request: Request) {
-
 	const css = `
 				@tailwind base;
 				@tailwind components;
@@ -10,10 +10,10 @@ export async function GET(request: Request) {
 				`;
 
 	const result = await postcss()
-		.use(tailwind(
-			{
+		.use(
+			tailwind({
 				config: {
-					prefix: 'tce-',
+					prefix: "tce-",
 					content: [],
 
 					// safelist: [
@@ -24,18 +24,19 @@ export async function GET(request: Request) {
 
 					theme: {
 						extend: {
-							colors: {
-							},
+							colors: {},
 						},
 					},
 					plugins: [],
-				}
-			}
-		))
+				},
+			})
+		)
 
+		// @TODO: find a way to make this work
+		// .use(cssnano({}))
 		.process(css, {
 			from: css,
-		})
+		});
 
 	return new Response(result.css);
 }
