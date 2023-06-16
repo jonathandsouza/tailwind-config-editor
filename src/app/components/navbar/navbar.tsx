@@ -1,7 +1,6 @@
 export const NavBar = () => {
 	return (
 		<>
-			<h1>testing</h1>
 			<div className="navbar bg-base-300 rounded-box">
 				<div className="flex-1 px-2 lg:flex-none">
 					<a className="text-lg font-bold">daisyUI</a>
