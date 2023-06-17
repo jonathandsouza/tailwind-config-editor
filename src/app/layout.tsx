@@ -1,5 +1,6 @@
-import { CustomTailwindStyles } from "./components/custom-tailwind-styles/custom-tailwind-styles";
-import { NavBar } from "./components/navbar/navbar";
+import { TailwindConfigSwitcher } from "@/components/tailwind-config-switcher/tailwind-config-switcher";
+import { CustomTailwindStyles } from "../components/custom-tailwind-styles/custom-tailwind-styles";
+import { NavBar } from "../components/navbar/navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -16,15 +17,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="dracula">
 			<head>
 				<CustomTailwindStyles />
 			</head>
 
 			<body className={inter.className}>
-				<header>
-					<NavBar />
-				</header>
+				<NavBar />
+
+				<TailwindConfigSwitcher />
 
 				{children}
 			</body>
