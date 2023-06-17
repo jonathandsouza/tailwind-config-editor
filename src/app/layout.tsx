@@ -24,10 +24,10 @@ export default function RootLayout({
 
 			<body className={inter.className}>
 				<NavBar />
-
-				<TailwindConfigSwitcher />
-
-				{children}
+				<div className="container mt-5">
+					<TailwindConfigSwitcher />
+					<main>{children}</main>
+				</div>
 			</body>
 		</html>
 	);

@@ -7,6 +7,11 @@ module.exports = {
 	],
 	theme: {
 		extend: {},
+
+		container: {
+			padding: "1rem",
+			center: true,
+		},
 	},
 	plugins: [require("daisyui")],
 

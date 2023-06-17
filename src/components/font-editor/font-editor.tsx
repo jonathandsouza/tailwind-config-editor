@@ -2,7 +2,7 @@
 export const FontEditor = () => {
 	return (
 		<>
-			<div className="flex w-full p-2">
+			<div className="flex w-full">
 				<div className="grid flex-grow basis-1/2 bg-base-300 p-8">
 					content
 				</div>
