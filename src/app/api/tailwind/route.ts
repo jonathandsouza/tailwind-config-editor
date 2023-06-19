@@ -1,9 +1,15 @@
-import { NextApiRequest } from "next";
 import postcss from "postcss";
 import tailwind from "tailwindcss";
 
-export async function POST(request: NextApiRequest) {
-	console.log("TESTING NOW NOW !!!!", JSON.parse(request.body));
+export async function POST(request: any) {
+	if (request.method !== "POST") {
+		return new Response("Method not allowed", {
+			status: 405,
+			statusText: "Method not allowed",
+		});
+	}
+
+	const body = await request.json();
 
 	const css = `
 				@tailwind base;
@@ -11,31 +17,28 @@ export async function POST(request: NextApiRequest) {
 				@tailwind utilities;
 				`;
 
-	const result = await postcss()
-		.use(
-			tailwind({
-				config: {
-					prefix: "tce-",
-					content: [],
-
-					// safelist: [
-					// 	{
-					// 		pattern: /.*/,
-					// 	},
-					// ],
-
-					theme: {
-						extend: {
-							colors: {},
-						},
+	const tailwindConfig = {
+		config: {
+			prefix: "tce-",
+			content: [],
+			safelist: ["tce-text-sm"],
+			theme: {
+				fontSize: body,
+				extend: {
+					colors: {
+						primary: "#ff0000",
 					},
-					plugins: [],
 				},
-			})
-		)
+			},
+			plugins: [],
+		},
+	};
 
-		// @TODO: find a way to make this work
-		// .use(cssnano({}))
+	console.log("TESTING CONFIG CONFIG !!!!", tailwindConfig);
+
+	const result = await postcss()
+		.use(tailwind(tailwindConfig))
+
 		.process(css, {
 			from: css,
 		});
