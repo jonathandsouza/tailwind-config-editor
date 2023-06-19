@@ -3,9 +3,9 @@
 import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
 
 export const CustomTailwindStyles = () => {
-	console.log(`component rendered`);
-
 	const { styles } = useTailwindConfigurationStore();
+
+	console.log(`!!!!! CustomTailwindStyles !!!!!`, styles);
 
 	return <style>{styles}</style>;
 };

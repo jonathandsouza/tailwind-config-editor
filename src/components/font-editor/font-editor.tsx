@@ -2,132 +2,112 @@
 
 import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
 import { useForm } from "react-hook-form";
+import { EditorLayout } from "../editor-layout/editor-layout";
 
 export const FontEditor = () => {
 	const store = useTailwindConfigurationStore();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { register, handleSubmit } = useForm();
 
-	const onSubmit = (data: any) => {
-		console.log({
-			...store.fontSize,
-			sm: [
-				data["text-sm-size"],
-				{ lineHeight: data["text-sm-line-height"] },
-			],
-		});
-		store.setFontSize({
-			...store.fontSize,
-			sm: [
-				data["text-sm-size"],
-				{ lineHeight: data["text-sm-line-height"] },
-			],
-		});
+	const onSubmit = (form: any) => {
+		console.log(form);
+
+		const fontSizes: any = {};
+
+		for (let key in form) {
+			if (key.includes("size")) {
+				fontSizes[key.replace("-size", "")] = [
+					form[key] + "rem",
+					{
+						lineHeight:
+							form[key.replace("-size", "-line-height")] + "rem",
+					},
+				];
+			}
+		}
+
+		store.updateFonts(fontSizes);
 	};
 
-	const fontTextSm = store.fontSize["sm"];
+	const fonts = store.config.theme?.fontSize;
+
+	console.log(fonts);
 
 	return (
 		<>
-			<div className="flex w-full">
-				<div className="grid flex-grow basis-1/2 bg-base-300 p-8">
-					<div className="overflow-x-auto">
-						<form onSubmit={handleSubmit(onSubmit)}>
-							<table className="table">
-								<thead>
-									<tr>
-										<th>name</th>
-										<th>font size</th>
-										<th>line height</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th>text-sm</th>
-										<td>
-											<input
-												defaultValue={fontTextSm[0]}
-												{...register("text-sm-size")}
-												type="text"
-												placeholder="size"
-												className="input input-bordered w-full max-w-xs"
-											/>
-										</td>
-										<td>
-											<input
-												defaultValue={
-													fontTextSm[1].lineHeight
-												}
-												{...register(
-													"text-sm-line-height"
-												)}
-												type="text"
-												placeholder="line height"
-												className="input input-bordered w-full max-w-xs"
-											/>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+			<EditorLayout
+				editor={
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<table className="table">
+							<thead>
+								<tr>
+									<th>name</th>
+									<th>font size (rem)</th>
+									<th>line height (rem)</th>
+								</tr>
+							</thead>
+							<tbody>
+								{Object.entries(fonts as object).map(
+									([key, value]) => (
+										<tr key={key}>
+											<th>{key}</th>
+											<td>
+												<input
+													defaultValue={value[0].replace(
+														"rem",
+														""
+													)}
+													{...register(`${key}-size`)}
+													type="number"
+													placeholder="size"
+													className="input input-bordered w-full max-w-xs"
+												/>
+											</td>
+											<td>
+												<input
+													defaultValue={value[1].lineHeight.replace(
+														"rem",
+														""
+													)}
+													{...register(
+														`${key}-line-height`
+													)}
+													type="number"
+													placeholder="line height"
+													className="input input-bordered w-full max-w-xs"
+												/>
+											</td>
+										</tr>
+									)
+								)}
+							</tbody>
+						</table>
 
-							<button type="submit" className="btn btn-primary">
-								Save
-							</button>
-						</form>
+						<button type="submit" className="btn btn-primary">
+							Save
+						</button>
+					</form>
+				}
+				preview={
+					<div className="flex flex-col gap-8">
+						{Object.entries(fonts as object).map(([key, value]) => {
+							return (
+								<div key={key}>
+									<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
+										{key}
+									</span>
+									<p
+										className={`tce-text-${key} text-slate-900 dark:text-slate-200`}
+									>
+										The quick brown fox jumps over the lazy
+										dog.
+									</p>
+								</div>
+							);
+						})}
 					</div>
-				</div>
-				<div className="divider divider-horizontal"></div>
-				<div className="grid flex-grow bg-base-300">
-					<div className="relative rounded-xl overflow-auto p-8">
-						<div className="flex flex-col gap-8">
-							<div>
-								<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
-									text-sm
-								</span>
-								<p className="tce-text-sm  text-slate-900 dark:text-slate-200">
-									The quick brown fox jumps over the lazy dog.
-								</p>
-							</div>
-							<div>
-								<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
-									text-base
-								</span>
-								<p className="text-base  text-slate-900 dark:text-slate-200">
-									The quick brown fox jumps over the lazy dog.
-								</p>
-							</div>
-							<div>
-								<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
-									text-lg
-								</span>
-								<p className="text-lg  text-slate-900 dark:text-slate-200">
-									The quick brown fox jumps over the lazy dog.
-								</p>
-							</div>
-							<div>
-								<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
-									text-xl
-								</span>
-								<p className="text-xl  text-slate-900 dark:text-slate-200">
-									The quick brown fox jumps over the lazy dog.
-								</p>
-							</div>
-							<div>
-								<span className="text-sm text-slate-500 font-mono mb-3 dark:text-slate-400">
-									text-2xl
-								</span>
-								<p className="text-2xl  text-slate-900 dark:text-slate-200">
-									The quick brown fox jumps over the lazy dog.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+				}
+			/>
 		</>
 	);
 };

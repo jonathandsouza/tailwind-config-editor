@@ -1,31 +1,41 @@
-import { FontSizes } from "@/types/tailwind-config";
 import { create } from "zustand";
 import defaultConfig from "tailwindcss/defaultConfig";
 import { Config } from "tailwindcss";
 
-const fetcher = (data: object) =>
+const fetcher = (config: object, safeList: string[]) =>
 	fetch("/api/tailwind", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(data),
+		body: JSON.stringify({
+			theme: {
+				...config,
+			},
+			safeList,
+		}),
 	}).then((res) => res.text());
 
 export const useTailwindConfigurationStore = create<{
-	activeConfig: Pick<Config, "theme">;
-	fontSize: any;
+	config: Config;
 	styles: string;
-	setFontSize: (newFontSize: FontSizes) => void;
+	updateFonts: (fonts: any) => void;
 }>((set) => ({
-	activeConfig: {},
-
-	fontSize: defaultConfig.theme?.fontSize,
+	config: defaultConfig,
 
 	styles: "",
 
-	setFontSize: async (newFontSize: FontSizes) => {
-		const styles = await fetcher(newFontSize);
-		set((state) => ({ ...state, styles, fontSize: newFontSize }));
+	async updateFonts(fonts) {
+		const styles = await fetcher(
+			{ fontSize: fonts },
+			Object.keys(fonts).map((key) => `tce-text-${key}`)
+		);
+		set((state) => {
+			if (state.config.theme) {
+				state.config.theme.fontSize = fonts;
+			}
+			state.styles = styles as string;
+			return state;
+		});
 	},
 }));

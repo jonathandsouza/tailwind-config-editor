@@ -21,15 +21,8 @@ export async function POST(request: any) {
 		config: {
 			prefix: "tce-",
 			content: [],
-			safelist: ["tce-text-sm"],
-			theme: {
-				fontSize: body,
-				extend: {
-					colors: {
-						primary: "#ff0000",
-					},
-				},
-			},
+			safelist: body.safeList,
+			theme: body.theme,
 			plugins: [],
 		},
 	};
