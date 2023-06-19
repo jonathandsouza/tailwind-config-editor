@@ -1,8 +1,10 @@
+import { NextApiRequest } from "next";
 import postcss from "postcss";
 import tailwind from "tailwindcss";
-import cssnano from "cssnano";
 
-export async function GET(request: Request) {
+export async function POST(request: NextApiRequest) {
+	console.log("TESTING NOW NOW !!!!", JSON.parse(request.body));
+
 	const css = `
 				@tailwind base;
 				@tailwind components;

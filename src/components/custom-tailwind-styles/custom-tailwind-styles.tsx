@@ -1,11 +1,11 @@
 "use client";
 
-import { useCustomTailwindStyles } from "@/services/cutom-tailwind-styles";
+import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
 
 export const CustomTailwindStyles = () => {
 	console.log(`component rendered`);
 
-	const { data } = useCustomTailwindStyles();
+	const { styles } = useTailwindConfigurationStore();
 
-	return <style>{data}</style>;
+	return <style>{styles}</style>;
 };

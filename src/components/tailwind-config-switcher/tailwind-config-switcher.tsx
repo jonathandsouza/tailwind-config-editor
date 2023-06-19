@@ -1,7 +1,7 @@
 "use client";
 
 import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
-import { TAILWIND_CONFIG_CATEGORIES } from "@/types/tailwind-configd";
+import { TAILWIND_CONFIG_CATEGORIES } from "@/types/tailwind-config";
 import clsx from "clsx";
 
 export const TailwindConfigSwitcher = () => {
