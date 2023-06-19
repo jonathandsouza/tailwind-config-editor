@@ -1,4 +1,4 @@
-export enum TAILWIND_CONFIG_CATEGORIES {
+export enum EDITORS {
 	COLORS = "colors",
 	FONT_SIZE = "font-size",
 }

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import defaultConfig from "tailwindcss/defaultConfig";
-import { initialize } from "next/dist/server/lib/render-server";
+import { EDITORS } from "@/types/tailwind-config";
 
 const fetcher = (config: object, safeList: string[]) =>
 	fetch("/api/tailwind", {
@@ -23,14 +23,18 @@ export const useTailwindConfigurationStore = create<{
 	config: typeof defaultConfig.theme;
 	styles: string;
 	isInitialized: boolean;
+	activeEditor: EDITORS;
 	initialize: () => void;
 	updateFonts: (fonts: any) => void;
+	setActiveEditor: (editor: EDITORS) => void;
 }>((set, get) => ({
 	config: defaultConfig.theme,
 
 	styles: "",
 
 	isInitialized: false,
+
+	activeEditor: EDITORS.FONT_SIZE,
 
 	initialize: async function () {
 		const state = get();
@@ -57,5 +61,9 @@ export const useTailwindConfigurationStore = create<{
 			},
 			styles,
 		}));
+	},
+
+	setActiveEditor(editor) {
+		set({ activeEditor: editor });
 	},
 }));

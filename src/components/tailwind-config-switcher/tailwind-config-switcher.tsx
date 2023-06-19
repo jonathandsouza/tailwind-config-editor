@@ -1,15 +1,15 @@
 "use client";
 
 import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
-import { TAILWIND_CONFIG_CATEGORIES } from "@/types/tailwind-config";
+import { EDITORS } from "@/types/tailwind-config";
 import clsx from "clsx";
 
 export const TailwindConfigSwitcher = () => {
 	const store = useTailwindConfigurationStore();
 
 	const configList = new Map([
-		[TAILWIND_CONFIG_CATEGORIES.COLORS, "Colors"],
-		[TAILWIND_CONFIG_CATEGORIES.FONT_SIZE, "Font Size"],
+		[EDITORS.COLORS, "Colors"],
+		[EDITORS.FONT_SIZE, "Font Size"],
 	]);
 
 	return (
@@ -19,11 +19,11 @@ export const TailwindConfigSwitcher = () => {
 					key={key}
 					className={clsx(
 						{
-							"tab-active": store.activeConfig === key,
+							"tab-active": store.activeEditor === key,
 						},
 						"tab tab-lifted"
 					)}
-					onClick={() => store.setActiveConfig(key)}
+					onClick={() => store.setActiveEditor(key)}
 				>
 					{value}
 				</a>

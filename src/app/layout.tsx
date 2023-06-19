@@ -3,7 +3,6 @@ import { CustomTailwindStyles } from "../components/custom-tailwind-styles/custo
 import { NavBar } from "../components/navbar/navbar";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { useTailwindConfigurationStore } from "@/services/tailwind-configuration";
 
 const inter = Inter({ subsets: ["latin"] });
 
