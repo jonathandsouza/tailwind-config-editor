@@ -29,7 +29,7 @@ export const FontEditor = () => {
 		store.updateFonts(fontSizes);
 	};
 
-	const fonts = store.config.theme?.fontSize;
+	const fonts = store.config?.fontSize;
 
 	console.log(fonts);
 

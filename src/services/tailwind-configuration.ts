@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import defaultConfig from "tailwindcss/defaultConfig";
-import { Config } from "tailwindcss";
+import { initialize } from "next/dist/server/lib/render-server";
 
 const fetcher = (config: object, safeList: string[]) =>
 	fetch("/api/tailwind", {
@@ -16,26 +16,46 @@ const fetcher = (config: object, safeList: string[]) =>
 		}),
 	}).then((res) => res.text());
 
+const compileFonts = (fonts: any) =>
+	Object.keys(fonts).map((key) => `tce-text-${key}`);
+
 export const useTailwindConfigurationStore = create<{
-	config: Config;
+	config: typeof defaultConfig.theme;
 	styles: string;
+	isInitialized: boolean;
+	initialize: () => void;
 	updateFonts: (fonts: any) => void;
-}>((set) => ({
-	config: defaultConfig,
+}>((set, get) => ({
+	config: defaultConfig.theme,
 
 	styles: "",
 
-	async updateFonts(fonts) {
+	isInitialized: false,
+
+	initialize: async function () {
+		const state = get();
+
+		if (state.isInitialized) return;
+
 		const styles = await fetcher(
-			{ fontSize: fonts },
-			Object.keys(fonts).map((key) => `tce-text-${key}`)
+			{ fontSize: {} },
+			compileFonts(defaultConfig.theme?.fontSize ?? [])
 		);
-		set((state) => {
-			if (state.config.theme) {
-				state.config.theme.fontSize = fonts;
-			}
-			state.styles = styles as string;
-			return state;
+
+		set({
+			styles,
+			isInitialized: true,
 		});
+	},
+
+	async updateFonts(fonts) {
+		const styles = await fetcher({ fontSize: fonts }, compileFonts(fonts));
+		set((state) => ({
+			config: {
+				...state.config,
+				fontSize: fonts,
+			},
+			styles,
+		}));
 	},
 }));
